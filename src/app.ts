@@ -17,19 +17,23 @@ button.addEventListener(
   () => {
     if (!input.value.trim()) return;
 
-    const payload = { label: input.value, complete: false };
+    const payload = { label: input.value, completed: false };
 
     store.dispatch({
       type: "ADD_TODO",
       payload,
     });
 
-    console.log(store);
-
     input.value = "";
   },
   false
 );
+
+const unsubscribe = store.subscribe((state) => {
+  renderTodos(state.todos.data);
+});
+
+destroy.addEventListener("click", unsubscribe, false);
 
 todoList.addEventListener("click", function (event) {
   const target = event.target as HTMLButtonElement;
